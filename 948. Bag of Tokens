@@ -1,0 +1,48 @@
+class Solution {
+public:
+    int bagOfTokensScore(vector<int>& tokens, int P) {
+        sort(tokens.begin(),tokens.end());
+        int s = tokens.size();
+        int sptr = 0;
+        int rptr = s-1;
+        int cp = P;
+        int ans = 0;
+            if(!(sptr<=rptr&&cp>=tokens[sptr]))return 0;
+        while(sptr<=rptr&&cp>=tokens[sptr]){
+            ans++;
+            cp -= tokens[sptr];
+            cout<<"sptr++"<<endl;
+            sptr++;
+        }
+        while(sptr<=rptr){
+            cp += tokens[rptr];
+            cout<<"rptr--"<<endl;
+            rptr--;   
+            ans--;
+            if(!(sptr<=rptr&&cp>=tokens[sptr])){
+                ans++;
+                break;
+            }
+            while(sptr<=rptr&&cp>=tokens[sptr]){
+                ans++;
+            cout<<"sptr++"<<endl;
+                cp -= tokens[sptr];
+                sptr++;
+            }
+        }
+        return ans;
+        /*int rsum = 0;
+        int ptr = s-1;
+        for(int i = 0; i< s; ++i){
+            rsum += tokens[i];
+        }
+        int isum = 0;
+        while(rsum > (isum + P)){
+            rsum -= tokens[ptr];
+            isum += tokens[ptr];
+            ptr --;
+        }
+        if(ptr < 0) return 0;
+        return 2*(ptr+1)-s;*/
+    }
+};
