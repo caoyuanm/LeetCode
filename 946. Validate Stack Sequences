@@ -1,0 +1,27 @@
+class Solution {
+public:
+    bool validateStackSequences(vector<int>& pushed, vector<int>& popped) {
+        stack<int> ss;
+        auto push_ptr = pushed.begin();
+        auto pop_ptr = popped.begin();
+        while((push_ptr != pushed.end())||(pop_ptr != popped.end())){
+            if(ss.empty()){
+                if(push_ptr == pushed.end())
+                    return false;
+                ss.push(*push_ptr);
+                push_ptr++;
+            } else {
+                if(ss.top()==*pop_ptr){
+                    ss.pop();
+                    pop_ptr++;
+                } else {
+                    if(push_ptr == pushed.end())
+                        return false;
+                    ss.push(*push_ptr);
+                    push_ptr++;
+                }
+            }
+        }
+        return ss.empty();
+    }
+};
