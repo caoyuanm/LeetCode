@@ -1,0 +1,53 @@
+class Solution {
+public:
+    int removeStones(vector<vector<int>>& stones) {
+        set<int> col[10000];
+        set<int> row[10000];
+        int s = stones.size();
+        bool* istouched = new bool[s];
+        for(int i =0 ; i<s; ++i)
+            istouched[i] =false;        
+        for(int i =0 ; i<s; ++i) {
+            col[stones[i][0]].insert(i);
+            row[stones[i][1]].insert(i);
+        }
+        int touched = s;
+        int num = 0;
+        while(touched != 0){
+            int start = -1;
+            for(int i =0 ; i<s; ++i)
+                if(istouched[i] == false){
+                    start = i;
+                    break;
+                }
+            stack<int> dfs;
+            dfs.push(start);
+            touched--;
+            istouched[start] = true;
+            while(!dfs.empty()){
+                int current = dfs.top();
+                dfs.pop();
+                cout << "i = "<<current<<endl;
+                int c0 =stones[current][0];
+                int c1 =stones[current][1];
+                 for (set<int>::iterator it=col[c0].begin(); it!=col[c0].end(); ++it){
+                     if(istouched[*it] == false){
+                         dfs.push(*it);
+                         touched--;
+                         istouched[*it] = true;
+                     }
+                 }
+                 for (set<int>::iterator it=row[c1].begin(); it!=row[c1].end(); ++it){
+                     if(istouched[*it] == false){
+                         dfs.push(*it);
+                         touched--;
+                         istouched[*it] = true;
+                     }
+                 }
+            }
+            num++;
+            
+        }
+        return (s-num);
+    }
+};
